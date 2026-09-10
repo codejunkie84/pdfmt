@@ -5,18 +5,18 @@ function main()
     trap _cleanup EXIT INT TERM
 
     # Check core dependencies for PDF manipulation
-    assert_installed awk
-    assert_installed basename
-    assert_installed cat
-    assert_installed find
-    assert_installed grep
-    assert_installed head
-    assert_installed mktemp
-    assert_installed pdftk
-    assert_installed sed
-    assert_installed seq
-    assert_installed tr
-    assert_installed xargs
+    _assert_installed awk
+    _assert_installed basename
+    _assert_installed cat
+    _assert_installed find
+    _assert_installed grep
+    _assert_installed head
+    _assert_installed mktemp
+    _assert_installed pdftk
+    _assert_installed sed
+    _assert_installed seq
+    _assert_installed tr
+    _assert_installed xargs
 
     local -r command="${1:-}"
     [[ -n "${command}" ]] && shift
@@ -32,6 +32,6 @@ function main()
 
         version|--version|-v) command_version "$@" ;;
         help|--help|-h|'') command_help "$@" ;;
-        *)  log_error "Unknown command '$command'"; return 1; ;;
+        *)  _log_error "Unknown command '$command'"; return 1; ;;
     esac
 }

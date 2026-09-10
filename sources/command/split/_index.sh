@@ -9,6 +9,6 @@ function command_split()
         range) command_split_range "$@" ;;
 
         help|--help|-h|'') command_split_help "$@" ;;
-        *)  log_error "Unknown command '$command'"; return 1; ;;
+        *)  _log_error "Unknown command '$command'"; return 1; ;;
     esac
 }

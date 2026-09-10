@@ -11,7 +11,7 @@ function _command_scan_execute()
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
     if [[ -z "${SCAN_DEVICE}" ]]; then
-        log_error "No scanner device configured. Please check ~/.config/pdfmt/scan.conf"
+        _log_error "No scanner device configured. Please check ~/.config/pdfmt/scan.conf"
         return 1
     fi
 
@@ -21,14 +21,14 @@ function _command_scan_execute()
     elif [[ "$command" == "flatbed" ]]; then
         source="$SCAN_SOURCE_FLATBED"
     else
-        log_error "Command not implemented: $command"
+        _log_error "Command not implemented: $command"
         return 1
     fi
 
     local width=
     local height=
     if ! _paper_get_format_sizes "${SCAN_PAPER_FORMAT}" width height; then
-        log_error "Could not determine paper dimensions"
+        _log_error "Could not determine paper dimensions"
         return 1
     fi
 
@@ -59,7 +59,7 @@ function _command_scan_execute()
     fi
 
     if [[ ! -f "$temp_dir/page_001.png" ]]; then
-        log_error "No pages found in ADF or scanner not ready."
+        _log_error "No pages found in ADF or scanner not ready."
         return 1
     fi
 

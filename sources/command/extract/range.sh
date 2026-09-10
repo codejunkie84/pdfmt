@@ -24,7 +24,7 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    assert_file "${input_file}"
+    _assert_file "${input_file}"
 
 
     # Handle
@@ -33,14 +33,14 @@ TEXT
 
     local expanded_pages
     if ! expanded_pages=$(_pdf_parse_ranges "${extract_ranges}" "${num_pages}"); then
-        log_error "Invalid range provided. Aborting extraction."
+        _log_error "Invalid range provided. Aborting extraction."
         return 1
     fi
 
     local -a pages_array=()
     read -ra pages_array <<< "${expanded_pages}" || true
     if (( ${#pages_array[@]} == 0 )); then
-        log_error "No valid pages selected for extraction."
+        _log_error "No valid pages selected for extraction."
         return 1
     fi
 

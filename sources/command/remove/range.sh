@@ -24,7 +24,7 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    assert_file "${input_file}"
+    _assert_file "${input_file}"
 
 
     # Handle
@@ -33,7 +33,7 @@ TEXT
 
     local expanded_pages
     if ! expanded_pages=$(_pdf_parse_ranges "${remove_ranges}" "${num_pages}"); then
-        log_error "Invalid range provided. Aborting."
+        _log_error "Invalid range provided. Aborting."
         return 1
     fi
 
@@ -53,7 +53,7 @@ TEXT
     done
 
     if (( ${#keep_array[@]} == 0 )); then
-        log_error "You removed all pages! Resulting PDF would be empty."
+        _log_error "You removed all pages! Resulting PDF would be empty."
         return 1
     fi
 

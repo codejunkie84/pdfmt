@@ -23,14 +23,14 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    assert_file "${input_file}"
+    _assert_file "${input_file}"
 
 
     # Handle
     # -----------------------------------------------------------------------------------------------------------------
     local -r num_pages="$(_pdf_get_num_pages "${input_file}")"
     if (( num_pages < 2 )); then
-        log_error "PDF has only 1 page. Removing odd pages would leave it empty."
+        _log_error "PDF has only 1 page. Removing odd pages would leave it empty."
         return 1
     fi
 

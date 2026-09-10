@@ -1,8 +1,8 @@
 function command_scan()
 {
     # Check dependencies for 'scan' command
-    assert_installed convert    # Part of ImageMagick
-    assert_installed scanimage
+    _assert_installed convert    # Part of ImageMagick
+    _assert_installed scanimage
 
     local -r command="${1:-}"
 
@@ -11,6 +11,6 @@ function command_scan()
         flatbed) command_scan_flatbed "$@" ;;
 
         help|--help|-h|'') command_scan_help "$@" ;;
-        *)  log_error "Unknown command '$command'"; return 1; ;;
+        *)  _log_error "Unknown command '$command'"; return 1; ;;
     esac
 }

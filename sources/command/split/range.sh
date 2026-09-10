@@ -25,7 +25,7 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    assert_file "${input_file}"
+    _assert_file "${input_file}"
 
 
     # Handle
@@ -57,19 +57,19 @@ TEXT
     for range_string in "${ranges[@]}"; do
         local expanded_pages
         if ! expanded_pages=$(_pdf_parse_ranges "${range_string}" "${num_pages}"); then
-            log_error "Invalid range '$range_string' provided. Aborting."
+            _log_error "Invalid range '$range_string' provided. Aborting."
             return 1
         fi
 
         local -a pages_array=()
         read -ra pages_array <<< "${expanded_pages}" || true
         if (( ${#pages_array[@]} == 0 )); then
-            log_error "No valid pages selected for range '$range_string'."
+            _log_error "No valid pages selected for range '$range_string'."
             return 1
         fi
 
         local output_file="${output_prefix}${count}.pdf"
-        log_info "Creating $output_file with pages $range_string ..."
+        _log_info "Creating $output_file with pages $range_string ..."
         pdftk "${input_file}" cat "${pages_array[@]}" output "${output_file}"
         ((count++))
     done
