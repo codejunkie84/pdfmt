@@ -31,3 +31,21 @@ function test_command_merge_all()
 
     assert_same "1234567813578642" "$(pdftotext output.pdf - | tr -d '[:space:]')"
 }
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function test_command_merge_all_with_not_existing_file()
+{
+    local exit_code=0
+
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    command_merge_all \
+        "${ROOT_DIR}/tests/_data/pages.pdf" \
+        "${ROOT_DIR}/tests/_data/duplex-frontside.pdf" \
+        "${ROOT_DIR}/tests/_data/duplex-backside.pdf" \
+        "${ROOT_DIR}/tests/_data/unknown-file.pdf" \
+        output.pdf  || exit_code=$?
+
+    assert_same "1" "${exit_code}"
+
+    assert_not_same "output.pdf" "$(printf '%s\n' *)"
+}
