@@ -7,7 +7,7 @@ VERSION ?= $(shell cat $(VERSION_FILE) 2>/dev/null || echo "0.0.0-unknown")
 SOURCE_DIR = sources
 TEST_DIR = tests
 DIST_DIR = dist
-APP_NAME=pdfmt
+APP_NAME = pdfmt
 TARGET = $(DIST_DIR)/$(APP_NAME)
 TARGET_TARGZ = $(DIST_DIR)/$(APP_NAME)-$(VERSION).tar.gz
 PREFIX ?= /usr/local
@@ -58,6 +58,14 @@ build:
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 lint:
+	@if ! command -v shellcheck > /dev/null 2>&1; then \
+		echo "ERROR: shellcheck is not installed."; \
+		echo "To install shellcheck, run:"; \
+		echo "  Debian/Ubuntu:  sudo apt install shellcheck"; \
+		echo "  Fedora/RHEL:    sudo dnf install ShellCheck"; \
+		echo "  macOS:          brew install shellcheck"; \
+		exit 1; \
+	fi
 	find "$(SOURCE_DIR)" -type f -name "*.sh" -exec shellcheck -s bash {} \;
 	find "$(TEST_DIR)"   -type f -name "*.sh" -exec shellcheck -s bash {} \;
 
