@@ -1,5 +1,5 @@
 #######################################################################################################################
-# Asserts that the given program is installed. Terminates the script with RC=1 if the assertion fails.
+# Asserts that the given program is installed.
 #
 # Usage:
 #   _assert_installed "tar"
@@ -11,7 +11,7 @@
 # Outputs:
 #   Outputs a message to STDERR if the assertion fails
 # Returns:
-#   0 on success, exits with RC=1 on failure
+#   0 on success, 1 on failure
 #######################################################################################################################
 function _assert_installed()
 {
@@ -19,13 +19,12 @@ function _assert_installed()
     local -r message="${2:-Could not find program "$program" in "\$PATH", or it is not executable}"
     if ! command -v "$program" >/dev/null 2>&1; then
         _log_error "${message}"
-        exit 1
+        return 1
     fi
 }
 
 #######################################################################################################################
 # Asserts whether a given file (not a directory) exists.
-# Terminates the script with RC=1 if the assertion fails.
 #
 # Usage:
 #   _assert_file "/path/to/file"
@@ -39,7 +38,7 @@ function _assert_installed()
 # Outputs:
 #   Outputs a message to STDERR if the assertion fails
 # Returns:
-#   0 on success, exits with RC=1 on failure
+#   0 on success, 1 on failure
 #######################################################################################################################
 function _assert_file()
 {
@@ -48,13 +47,12 @@ function _assert_file()
 
     if [[ ! -f "$path" ]]; then
         _log_error "${message}"
-        exit 1
+        return 1
     fi
 }
 
 #######################################################################################################################
 # Asserts whether a given string is not empty.
-# Terminates the script with RC=1 if the assertion fails.
 #
 # Usage:
 #   _assert_not_empty "$value_to_check"
@@ -68,7 +66,7 @@ function _assert_file()
 # Outputs:
 #   Outputs a message to STDERR if the assertion fails
 # Returns:
-#   0 on success, exits with RC=1 on failure
+#   0 on success, 1 on failure
 #######################################################################################################################
 function _assert_not_empty()
 {
@@ -77,13 +75,12 @@ function _assert_not_empty()
 
     if [[ -z "$value" ]]; then
         _log_error "${message}"
-        exit 1
+        return 1
     fi
 }
 
 #######################################################################################################################
 # Asserts that all characters in the given value are numeric.
-# Terminates the script with RC=1 if the assertion fails.
 #
 # Usage:
 #   _assert_digit "$value_to_check"
@@ -97,7 +94,7 @@ function _assert_not_empty()
 # Outputs:
 #   Outputs a message to STDERR if the assertion fails
 # Returns:
-#   0 on success, exits with RC=1 on failure
+#   0 on success, 1 on failure
 #######################################################################################################################
 function _assert_digit()
 {
@@ -106,6 +103,6 @@ function _assert_digit()
 
     if [[ ! "$value" =~ ^[0-9]+$ ]]; then
         _log_error "${message}"
-        exit 1
+        return 1
     fi
 }
