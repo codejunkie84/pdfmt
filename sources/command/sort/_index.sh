@@ -11,6 +11,6 @@ function command_sort()
         swap) command_sort_swap "$@" ;;
 
         help|--help|-h|'') command_sort_help "$@" ;;
-        *)  log_error "Unknown command '$command'"; return 1; ;;
+        *)  _log_error "Unknown command '$command'"; return 1; ;;
     esac
 }

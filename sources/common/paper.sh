@@ -25,9 +25,9 @@ function _paper_get_format_sizes()
     local -n width_ref="${2}"   # Nameref for the target variable (width)
     local -n height_ref="${3}"  # Nameref for the target variable (height)
 
-    assert_not_empty "${format}" "No paper format given"
-    assert_not_empty "${2}" "Output variable for width is required"
-    assert_not_empty "${3}" "Output variable for height is required"
+    _assert_not_empty "${format}" "No paper format given"
+    _assert_not_empty "${2}" "Output variable for width is required"
+    _assert_not_empty "${3}" "Output variable for height is required"
 
     local w=
     local h=
@@ -58,7 +58,7 @@ function _paper_get_format_sizes()
         LEDGER)  w=432; h=279 ;;
 
         *)
-            log_error "Unsupported paper format: ${format}"
+            _log_error "Unsupported paper format: ${format}"
             return 1
             ;;
     esac

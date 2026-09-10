@@ -26,8 +26,8 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    assert_file "${input_file}"
-    assert_digit "${target_pos}"
+    _assert_file "${input_file}"
+    _assert_digit "${target_pos}"
 
 
     # Handle
@@ -36,7 +36,7 @@ TEXT
 
     local expanded_pages
     if ! expanded_pages=$(_pdf_parse_ranges "${move_ranges}" "${num_pages}"); then
-        log_error "Invalid range given"
+        _log_error "Invalid range given"
         return 1
     fi
 

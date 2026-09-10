@@ -26,9 +26,9 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    assert_file "${input_file}"
-    assert_digit "${page_a}"
-    assert_digit "${page_b}"
+    _assert_file "${input_file}"
+    _assert_digit "${page_a}"
+    _assert_digit "${page_b}"
 
 
     # Handle
@@ -36,7 +36,7 @@ TEXT
     local -r num_pages="$(_pdf_get_num_pages "${input_file}")"
 
     if (( page_a > num_pages || page_b > num_pages || page_a < 1 || page_b < 1 )); then
-        log_error "One or both page numbers ($page_a, $page_b) are out of range (1-$num_pages)."
+        _log_error "One or both page numbers ($page_a, $page_b) are out of range (1-$num_pages)."
         return 1
     fi
 

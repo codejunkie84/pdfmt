@@ -23,14 +23,14 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    assert_file "${input_file}"
+    _assert_file "${input_file}"
 
 
     # Handle
     # -----------------------------------------------------------------------------------------------------------------
     local -r num_pages="$(_pdf_get_num_pages "${input_file}")"
     if (( num_pages % 2 != 0 )); then
-        log_error "Odd number of pages. Total pages: $num_pages"
+        _log_error "Odd number of pages. Total pages: $num_pages"
         return 1
     fi
 

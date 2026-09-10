@@ -9,6 +9,6 @@ function command_extract()
         range) command_extract_range "$@" ;;
 
         help|--help|-h|'') command_extract_help "$@" ;;
-        *)  log_error "Unknown command '$command'"; return 1; ;;
+        *)  _log_error "Unknown command '$command'"; return 1; ;;
     esac
 }

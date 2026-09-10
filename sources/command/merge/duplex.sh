@@ -24,8 +24,8 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    assert_file "${input_frontside_file}"
-    assert_file "${input_backside_file}"
+    _assert_file "${input_frontside_file}"
+    _assert_file "${input_backside_file}"
 
 
     # Handle
@@ -33,7 +33,7 @@ TEXT
     local -r num_frontside_pages="$(_pdf_get_num_pages "${input_frontside_file}")"
     local -r num_backside_pages="$(_pdf_get_num_pages "${input_backside_file}")"
     if (( num_frontside_pages != num_backside_pages )); then
-        log_error "Number of pages differs from frontside and backside input files"
+        _log_error "Number of pages differs from frontside and backside input files"
         return 1
     fi
 

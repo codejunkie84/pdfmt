@@ -9,6 +9,6 @@ function command_remove()
         range) command_remove_range "$@" ;;
 
         help|--help|-h|'') command_remove_help "$@" ;;
-        *)  log_error "Unknown command '$command'"; return 1; ;;
+        *)  _log_error "Unknown command '$command'"; return 1; ;;
     esac
 }

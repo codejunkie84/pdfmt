@@ -18,7 +18,7 @@ function _pdf_get_num_pages()
     local -r input_file="${1}"
     local -r num_pages=$(pdftk "${input_file}" dump_data | grep NumberOfPages | awk '{print $2}')
 
-    assert_not_empty "${num_pages}" "Unable to determine the total number of pages"
+    _assert_not_empty "${num_pages}" "Unable to determine the total number of pages"
 
     echo "$num_pages"
 }
@@ -44,7 +44,7 @@ function _pdf_parse_ranges()
     local -a parsed_pages=()
 
     if [[ -z "$range_string" ]]; then
-        log_error "Range is empty."
+        _log_error "Range is empty."
         return 1
     fi
 
@@ -62,12 +62,12 @@ function _pdf_parse_ranges()
             local end="${BASH_REMATCH[2]}"
 
             if (( start > end )); then
-                log_error "Invalid range '$part' (start > end)."
+                _log_error "Invalid range '$part' (start > end)."
                 return 1
             fi
 
             if [[ -n "$max_pages" ]] && (( end > max_pages )); then
-                log_error "Range '$part' exceeds total pages ($max_pages)."
+                _log_error "Range '$part' exceeds total pages ($max_pages)."
                 return 1
             fi
 
@@ -78,14 +78,14 @@ function _pdf_parse_ranges()
         elif [[ "$part" =~ ^[1-9][0-9]*$ ]]; then
             # case: single page
             if [[ -n "$max_pages" ]] && (( part > max_pages )); then
-                log_error "Page '$part' exceeds total pages ($max_pages)."
+                _log_error "Page '$part' exceeds total pages ($max_pages)."
                 return 1
             fi
             parsed_pages+=("$part")
 
         else
             # case: invalid format
-            log_error "Error: Invalid format in range part '$part'."
+            _log_error "Error: Invalid format in range part '$part'."
             return 1
         fi
     done

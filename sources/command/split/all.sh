@@ -24,7 +24,7 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    assert_file "${input_file}"
+    _assert_file "${input_file}"
 
 
     # Handle
@@ -34,7 +34,7 @@ TEXT
 
     for ((i=1; i<=num_pages; i++)); do
         output_file="${output_prefix}${i}.pdf"
-        log_info "Creating $output_file with page $i ..."
+        _log_info "Creating $output_file with page $i ..."
         pdftk "$input_file" cat "$i" output "$output_file"
     done
 }

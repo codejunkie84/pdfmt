@@ -24,9 +24,9 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    assert_file "${input_file}"
-    assert_digit "${position}"
-    assert_file "${insert_file}"
+    _assert_file "${input_file}"
+    _assert_digit "${position}"
+    _assert_file "${insert_file}"
 
 
     # Handle

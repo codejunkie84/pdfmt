@@ -9,6 +9,6 @@ function command_merge()
         insert) command_merge_insert "$@" ;;
 
         help|--help|-h|'') command_merge_help "$@" ;;
-        *)  log_error "Unknown command '$command'"; return 1; ;;
+        *)  _log_error "Unknown command '$command'"; return 1; ;;
     esac
 }

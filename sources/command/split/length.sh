@@ -25,7 +25,7 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    assert_file "${input_file}"
+    _assert_file "${input_file}"
 
 
     # Handle
@@ -34,7 +34,7 @@ TEXT
     local output_file=""
 
     if ! [[ "$num_pages_per_file" =~ ^[1-9][0-9]*$ ]]; then
-        log_error "length is not a positive number"
+        _log_error "length is not a positive number"
         return 1
     fi
 
@@ -48,7 +48,7 @@ TEXT
             end=$num_pages
         fi
         output_file="${output_prefix}$((i + 1)).pdf"
-        log_info "Creating $output_file with page $start-$end ..."
+        _log_info "Creating $output_file with page $start-$end ..."
         pdftk "$input_file" cat "$start-$end" output "$output_file"
     done
 }
