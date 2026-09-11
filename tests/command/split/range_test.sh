@@ -20,13 +20,16 @@ function tear_down()
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function test_command_split_range()
 {
+    local exit_code=0
+
     # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
-    command_split_range "${ROOT_DIR}/tests/_data/pages.pdf" 1-4,6,7-8 1-3,5
+    command_split_range "${ROOT_DIR}/tests/_data/pages.pdf" 1-4,6,7-8 1-3,5 || exit_code=$?
 
     assert_same \
         "pages_1.pdf pages_2.pdf" \
         "$(printf '%s\n' * | tr '\n' ' ' | sed 's/ $//')"
 
+    assert_same "0" "${exit_code}"
     assert_same "1234678" "$(pdftotext pages_1.pdf - | tr -d '[:space:]')"
     assert_same "1235" "$(pdftotext pages_2.pdf - | tr -d '[:space:]')"
 }
@@ -34,13 +37,16 @@ function test_command_split_range()
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function test_command_split_range_with_output_prefix()
 {
+    local exit_code=0
+
     # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
-    command_split_range "${ROOT_DIR}/tests/_data/pages.pdf" 1-4,6,7-8 1-3,5 foobar
+    command_split_range "${ROOT_DIR}/tests/_data/pages.pdf" 1-4,6,7-8 1-3,5 foobar || exit_code=$?
 
     assert_same \
         "foobar1.pdf foobar2.pdf" \
         "$(printf '%s\n' * | tr '\n' ' ' | sed 's/ $//')"
 
+    assert_same "0" "${exit_code}"
     assert_same "1234678" "$(pdftotext foobar1.pdf - | tr -d '[:space:]')"
     assert_same "1235" "$(pdftotext foobar2.pdf - | tr -d '[:space:]')"
 }
