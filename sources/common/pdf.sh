@@ -71,6 +71,11 @@ function _pdf_parse_ranges()
                 return 1
             fi
 
+            if (( end - start > 1000 )); then
+                _log_error "Page range too large. Max page range is 1000."
+                return 1
+            fi
+
             for (( i=start; i<=end; i++ )); do
                 parsed_pages+=("$i")
             done
