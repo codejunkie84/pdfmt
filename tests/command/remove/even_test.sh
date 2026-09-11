@@ -20,10 +20,25 @@ function tear_down()
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function test_command_remove_even()
 {
+    local exit_code=0
+
     # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
-    command_remove_even "${ROOT_DIR}/tests/_data/pages.pdf" output.pdf
+    command_remove_even "${ROOT_DIR}/tests/_data/pages.pdf" output.pdf || exit_code=$?
 
+    assert_same "0" "${exit_code}"
     assert_same "output.pdf" "$(printf '%s\n' *)"
-
     assert_same "1357" "$(pdftotext output.pdf - | tr -d '[:space:]')"
 }
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function test_command_remove_even_with_not_existing_file()
+{
+    local exit_code=0
+
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    command_remove_even "${ROOT_DIR}/tests/_data/unknown-file.pdf" output.pdf || exit_code=$?
+
+    assert_same "1" "${exit_code}"
+    assert_not_same "output.pdf" "$(printf '%s\n' *)"
+}
+
