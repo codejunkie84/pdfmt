@@ -29,13 +29,15 @@ jobs:
             sudo apt-get install -y \
               shellcheck \
               pdftk \
-              poppler-utils
+              poppler-utils \
+              imagemagick
 
           elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
             brew install \
               shellcheck \
               pdftk-java \
-              poppler
+              poppler \
+              imagemagick
           fi
 
       - name: Install bashunit
