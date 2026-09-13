@@ -34,7 +34,7 @@ jobs:
           elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
             brew install \
               shellcheck \
-              pdftk \
+              pdftk-java \
               poppler
           fi
 
