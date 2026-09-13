@@ -30,13 +30,16 @@ jobs:
               shellcheck \
               pdftk \
               poppler-utils \
+              sane-utils \
               imagemagick
 
           elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
             brew install \
+              bash \
               shellcheck \
               pdftk-java \
               poppler \
+              sane-backends \
               imagemagick
           fi
 
@@ -44,6 +47,24 @@ jobs:
         shell: bash
         run: |
           curl -s https://bashunit.com/install.sh | bash
+
+      # macOS ships with Bash 3.2. pdfmt requires a newer Bash.
+      # Add the Homebrew Bash to PATH so that:
+      #
+      #   make -> shell -> bash
+      #
+      # uses the version we just installed.
+      - name: Select Bash
+        shell: bash
+        run: |
+          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            echo "$(brew --prefix)/bin" >> "$GITHUB_PATH"
+          fi
+      - name: Show Bash version
+        shell: bash
+        run: |
+          bash --version
+          command -v bash
 
       - name: Build and test
         shell: bash
