@@ -17,16 +17,71 @@ document tasks like splitting, merging, reordering, and scanning.
 
 ## Installation
 
-### Prerequisites
+### Requirements
 
-`pdfmt` requires the following dependencies installed on your system:
+`pdfmt` requires Bash 4.3 or newer.
 
-- `pdftk`
-- `convert` (ImageMagick)
-- `scanimage` (SANE)
-- `poppler-utils` (`pdftotext` for testing)
+#### Runtime dependencies
 
-### Build and Install
+The following programs are required at runtime:
+
+| Program                                                       | Linux         | macOS           | Used for             |
+|---------------------------------------------------------------|---------------|-----------------|----------------------|
+| [Bash](https://www.gnu.org/software/bash/) >= 4.3             | `bash`        | `bash`          | Running `pdfmt`      |
+| [pdftk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) | `pdftk`       | `pdftk-java`    | PDF manipulation     |
+| [ImageMagick](https://imagemagick.org/)                       | `imagemagick` | `imagemagick`   | Image/PDF operations |
+| [SANE](https://sane-project.org/)                             | `sane-utils`  | `sane-backends` | Scanning             |
+
+Not every command requires every dependency. For example, SANE is only required for the `scan` command.
+
+##### Linux
+```bash
+# On Debian/Ubuntu:
+sudo apt install bash pdftk imagemagick sane-utils
+```
+
+**Note:** Other Linux distributions may use different package names.
+
+##### macOS
+```bash
+# Using Homebrew:
+brew install bash pdftk-java imagemagick sane-backends
+```
+**Note:** macOS ships with Bash 3.2, which is too old for `pdfmt`. A newer Bash version is required.
+
+#### Development and test dependencies
+
+The following additional programs are required to build, lint and test `pdfmt`:
+
+| Program                                     | Linux           | macOS        | Used for                   |
+|---------------------------------------------|-----------------|--------------|----------------------------|
+| [make](https://www.gnu.org/software/make/)  | `make`          | `make`       | Build and test automation  |
+| [shellcheck](https://www.shellcheck.net/)   | `shellcheck`    | `shellcheck` | Shell script linting       |
+| [bashunit](https://bashunit.com/)           | `bashunit`      | `bashunit`   | Unit and integration tests |
+| [Poppler](https://poppler.freedesktop.org/) | `poppler-utils` | `poppler`    | Verifying PDF test results |
+
+##### Linux
+```bash
+# On Debian/Ubuntu:
+sudo apt install make shellcheck poppler-utils
+
+# bashunit can be installed in project directory using:
+curl -s https://bashunit.com/install.sh | bash
+```
+
+**Note:** Other Linux distributions may use different package names.
+
+##### macOS
+```bash
+# Using Homebrew:
+brew install make shellcheck poppler
+
+# bashunit can be installed in project directory using:
+curl -s https://bashunit.com/install.sh | bash
+```
+
+
+### Build and Install from source
 
 Clone the repository and use the included Makefile:
 
@@ -37,6 +92,10 @@ make build
 # Install to /usr/local/bin (sudo called within make install)
 make install
 ```
+
+### Install from GitHub
+Download the latest release and place it into `/usr/local/bin`.
+
 
 ## Usage
 
