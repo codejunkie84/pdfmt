@@ -1,0 +1,62 @@
+name: snapshot
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+            sudo apt-get update
+            sudo apt-get install -y \
+              shellcheck \
+              pdftk \
+              poppler-utils \
+              sane-utils \
+              imagemagick
+
+          elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            brew install \
+              bash \
+              shellcheck \
+              pdftk-java \
+              poppler \
+              sane-backends \
+              imagemagick
+          fi
+
+      - name: Install bashunit
+        shell: bash
+        run: |
+          curl -s https://bashunit.com/install.sh | bash
+
+      - name: Show Bash version
+        shell: bash
+        run: |
+          echo "Bash:"
+          bash --version
+          echo
+          echo "Path:"
+          command -v bash
+
+      - name: Build and test
+        shell: bash
+        run: make test
