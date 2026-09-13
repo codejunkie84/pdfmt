@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install dependencies
         shell: bash
@@ -54,12 +54,15 @@ jobs:
       #   make -> shell -> bash
       #
       # uses the version we just installed.
-      - name: Select Bash
+      - name: Show Bash version
         shell: bash
         run: |
-          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            echo "$(brew --prefix)/bin" >> "$GITHUB_PATH"
-          fi
+          echo "Bash:"
+          bash --version
+          echo
+          echo "Path:"
+          command -v bash
+
       - name: Show Bash version
         shell: bash
         run: |
