@@ -1,3 +1,9 @@
+<p align="center">
+    <a href="https://github.com/eifelcode/pdfmt/actions/workflows/snapshot.yaml"><img src="https://github.com/eifelcode/pdfmt/actions/workflows/snapshot.yaml/badge.svg" alt="Tests"></a>
+    <a href="https://github.com/eifelcode/pdfmt/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT Software License"></a>
+</p>
+<br>
+
 # pdfmt - PDF Multi-Tool for PDF manipulation
 
 A project from [eifelcode.com](https://www.eifelcode.com)
