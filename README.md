@@ -110,7 +110,6 @@ Download the latest release and place it into `/usr/local/bin`.
 ```bash
 pdfmt
 ```
-**Hint:** The tool works similarly to other commands that follow the Unix philosophy: If your output file already exists, it will be overwritten.
 
 ### Real-World Workflows / Cookbook
 

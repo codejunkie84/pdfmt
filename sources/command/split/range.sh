@@ -25,7 +25,7 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    _assert_file "${input_file}"
+    _assert_is_file "${input_file}" || return $?
 
 
     # Handle
@@ -38,6 +38,7 @@ TEXT
     # Check whether an optional prefix was passed (the last argument is not a valid range)
     if (( ${#args[@]} >= 2 )); then
         local -r last_arg="${args[-1]}"
+
         if _pdf_parse_ranges "${last_arg}" "${num_pages}" >/dev/null 2>&1; then
             # The last argument is a valid range -> All arguments are ranges; use the default prefix
             ranges=("${args[@]}")
@@ -53,24 +54,70 @@ TEXT
         output_prefix="$(basename "${input_file%.*}")_"
     fi
 
+
+    # Validate ranges and output files
     local count=1
+
     for range_string in "${ranges[@]}"; do
         local expanded_pages
+
         if ! expanded_pages=$(_pdf_parse_ranges "${range_string}" "${num_pages}"); then
-            _log_error "Invalid range '$range_string' provided. Aborting."
+            _log_error "Invalid range '${range_string}' provided. Aborting."
             return 1
         fi
 
         local -a pages_array=()
         read -ra pages_array <<< "${expanded_pages}" || true
+
         if (( ${#pages_array[@]} == 0 )); then
-            _log_error "No valid pages selected for range '$range_string'."
+            _log_error "No valid pages selected for range '${range_string}'."
             return 1
         fi
 
         local output_file="${output_prefix}${count}.pdf"
-        _log_info "Creating $output_file with pages $range_string ..."
-        pdftk "${input_file}" cat "${pages_array[@]}" output "${output_file}"
+        _assert_is_not_file "${output_file}" || return $?
+
+        ((count++))
+    done
+
+
+    # Handle
+    # -----------------------------------------------------------------------------------------------------------------
+    local -r temp_dir="$(mktemp -d)"
+    FILES_TO_CLEANUP+=("${temp_dir}")
+
+
+    # Split
+    # -----------------------------------------------------------------------------------------------------------------
+    count=1
+
+    for range_string in "${ranges[@]}"; do
+        local expanded_pages
+        expanded_pages=$(_pdf_parse_ranges "${range_string}" "${num_pages}")
+
+        local -a pages_array=()
+        read -ra pages_array <<< "${expanded_pages}" || true
+
+        local output_file="${output_prefix}${count}.pdf"
+        local temp_file="${temp_dir}/${count}.pdf"
+
+        _log_info "Creating ${output_file} with pages ${range_string} ..."
+        pdftk "${input_file}" cat "${pages_array[@]}" output "${temp_file}"
+
+        ((count++))
+    done
+
+
+    # Move
+    # -----------------------------------------------------------------------------------------------------------------
+    count=1
+
+    for range_string in "${ranges[@]}"; do
+        local output_file="${output_prefix}${count}.pdf"
+        local temp_file="${temp_dir}/${count}.pdf"
+
+        mv "${temp_file}" "${output_file}"
+
         ((count++))
     done
 }

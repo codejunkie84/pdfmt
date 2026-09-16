@@ -17,11 +17,11 @@ function _pdf_get_num_pages()
 {
     local -r input_file="${1}"
 
-    _assert_file "${input_file}" "Unable to determine the total number of pages" || return 1
+    _assert_is_file "${input_file}" "Unable to determine the total number of pages" || return 1
 
     local -r num_pages=$(pdftk "${input_file}" dump_data | grep NumberOfPages | awk '{print $2}')
 
-    _assert_not_empty "${num_pages}" "Unable to determine the total number of pages"
+    _assert_is_not_empty "${num_pages}" "Unable to determine the total number of pages" || return $?
 
     echo "$num_pages"
 }

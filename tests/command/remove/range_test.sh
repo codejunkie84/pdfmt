@@ -140,3 +140,18 @@ function test_command_remove_range_partial_existing_pages()
     assert_same "1" "${exit_code}"
     assert_not_same "output.pdf" "$(printf '%s\n' *)"
 }
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function test_command_remove_range_output_already_exists()
+{
+    local exit_code=0
+
+    echo "foobar" > output.pdf
+
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    command_remove_range "${ROOT_DIR}/tests/_data/pages.pdf" 1-2,4,7-8 output.pdf || exit_code=$?
+
+    assert_same "1" "${exit_code}"
+    assert_same "output.pdf" "$(printf '%s\n' *)"
+    assert_same "foobar" "$(cat output.pdf)"
+}

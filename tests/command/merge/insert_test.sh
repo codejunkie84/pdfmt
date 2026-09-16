@@ -50,3 +50,22 @@ function test_command_merge_insert_with_not_existing_file()
 
     assert_not_same "output.pdf" "$(printf '%s\n' *)"
 }
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function test_command_merge_insert_output_already_exists()
+{
+    local exit_code=0
+
+    echo "foobar" > output.pdf
+
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    command_merge_insert \
+        "${ROOT_DIR}/tests/_data/pages.pdf" \
+        2 \
+        "${ROOT_DIR}/tests/_data/duplex-frontside.pdf" \
+        output.pdf || exit_code=$?
+
+    assert_same "1" "${exit_code}"
+    assert_same "output.pdf" "$(printf '%s\n' *)"
+    assert_same "foobar" "$(cat output.pdf)"
+}

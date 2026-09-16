@@ -29,3 +29,18 @@ function test_command_sort_random()
     assert_same "output.pdf" "$(printf '%s\n' *)"
     assert_not_same "12345678" "$(pdftotext output.pdf - | tr -d '[:space:]')"
 }
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function test_command_sort_random_output_already_exists()
+{
+    local exit_code=0
+
+    echo "foobar" > output.pdf
+
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    command_sort_random "${ROOT_DIR}/tests/_data/pages.pdf" output.pdf || exit_code=$?
+
+    assert_same "1" "${exit_code}"
+    assert_same "output.pdf" "$(printf '%s\n' *)"
+    assert_same "foobar" "$(cat output.pdf)"
+}

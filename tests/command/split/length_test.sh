@@ -54,3 +54,18 @@ function test_command_split_length_with_output_prefix()
     assert_same "56" "$(pdftotext foobar3.pdf - | tr -d '[:space:]')"
     assert_same "78" "$(pdftotext foobar4.pdf - | tr -d '[:space:]')"
 }
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function test_command_split_length_output_already_exists()
+{
+    local exit_code=0
+
+    echo "foobar" > pages_3.pdf
+
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    command_split_length "${ROOT_DIR}/tests/_data/pages.pdf" 2 || exit_code=$?
+
+    assert_same "1" "${exit_code}"
+    assert_same "pages_3.pdf" "$(printf '%s\n' * | tr '\n' ' ' | sed 's/ $//')"
+    assert_same "foobar" "$(cat pages_3.pdf)"
+}

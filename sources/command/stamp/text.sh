@@ -23,16 +23,17 @@ TEXT
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
     local -r please_check="Please check ~/.config/pdfmt/stamp_text.conf"
-    _assert_not_empty "${STAMP_TEXT_FONT_FILE}" "No font file configured. $STAMP_TEXT_FONT_FILE ${please_check}"
-    _assert_not_empty "${STAMP_TEXT_FONT_COLOR}" "No font color configured. ${please_check}"
-    _assert_file "${STAMP_TEXT_FONT_FILE}" "Configured font file not found: '${STAMP_TEXT_FONT_FILE}'. ${please_check}"
-    _assert_digit "${STAMP_TEXT_FONT_SIZE}" "Configured font size is invalid: '${STAMP_TEXT_FONT_SIZE}'. ${please_check}"
+    _assert_is_not_empty "${STAMP_TEXT_FONT_FILE}" "No font file configured. $STAMP_TEXT_FONT_FILE ${please_check}" || return $?
+    _assert_is_not_empty "${STAMP_TEXT_FONT_COLOR}" "No font color configured. ${please_check}" || return $?
+    _assert_is_file "${STAMP_TEXT_FONT_FILE}" "Configured font file not found: '${STAMP_TEXT_FONT_FILE}'. ${please_check}" || return $?
+    _assert_is_digit "${STAMP_TEXT_FONT_SIZE}" "Configured font size is invalid: '${STAMP_TEXT_FONT_SIZE}'. ${please_check}" || return $?
 
     local -r input_file="${1:-}"
     local -r text="${2:-}"
     local -r output_file="${3:-}"
 
-    _assert_file "${input_file}"
+    _assert_is_file "${input_file}" || return $?
+    _assert_is_not_file "${output_file}" || return $?
 
 
     # Handle

@@ -62,3 +62,18 @@ function test_command_split_all_with_output_prefix()
     assert_same "7" "$(pdftotext foobar7.pdf - | tr -d '[:space:]')"
     assert_same "8" "$(pdftotext foobar8.pdf - | tr -d '[:space:]')"
 }
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function test_command_split_all_output_already_exists()
+{
+    local exit_code=0
+
+    echo "foobar" > pages_6.pdf
+
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    command_split_all "${ROOT_DIR}/tests/_data/pages.pdf" || exit_code=$?
+
+    assert_same "1" "${exit_code}"
+    assert_same "pages_6.pdf" "$(printf '%s\n' * | tr '\n' ' ' | sed 's/ $//')"
+    assert_same "foobar" "$(cat pages_6.pdf)"
+}

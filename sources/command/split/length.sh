@@ -25,30 +25,52 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    _assert_file "${input_file}"
+    _assert_is_file "${input_file}" || return $?
+
+    if ! [[ "${num_pages_per_file}" =~ ^[1-9][0-9]*$ ]]; then
+        _log_error "length is not a positive number"
+        return 1
+    fi
 
 
     # Handle
     # -----------------------------------------------------------------------------------------------------------------
     local -r num_pages="$(_pdf_get_num_pages "${input_file}")"
-    local output_file=""
-
-    if ! [[ "$num_pages_per_file" =~ ^[1-9][0-9]*$ ]]; then
-        _log_error "length is not a positive number"
-        return 1
-    fi
-
     local -r num_documents=$(( (num_pages + num_pages_per_file - 1) / num_pages_per_file ))
-    local start=0
-    local end=0
+
+    for ((i=1; i<=num_documents; i++)); do
+        local output_file="${output_prefix}${i}.pdf"
+
+        _assert_is_not_file "${output_file}" || return $?
+    done
+
+
+    local -r temp_dir="$(mktemp -d)"
+    FILES_TO_CLEANUP+=("${temp_dir}")
+
+
+    # Split
     for ((i=0; i<num_documents; i++)); do
-        start=$(( i * num_pages_per_file + 1 ))
-        end=$(( (i + 1) * num_pages_per_file ))
-        if [[ "$end" -gt "$num_pages" ]]; then
-            end=$num_pages
+        local start=$(( i * num_pages_per_file + 1 ))
+        local end=$(( (i + 1) * num_pages_per_file ))
+
+        if [[ "${end}" -gt "${num_pages}" ]]; then
+            end="${num_pages}"
         fi
-        output_file="${output_prefix}$((i + 1)).pdf"
-        _log_info "Creating $output_file with page $start-$end ..."
-        pdftk "$input_file" cat "$start-$end" output "$output_file"
+
+        local output_file="${output_prefix}$((i + 1)).pdf"
+        local temp_file="${temp_dir}/$((i + 1)).pdf"
+
+        _log_info "Creating ${output_file} with page ${start}-${end} ..."
+        pdftk "${input_file}" cat "${start}-${end}" output "${temp_file}"
+    done
+
+
+    # Move
+    for ((i=1; i<=num_documents; i++)); do
+        local output_file="${output_prefix}${i}.pdf"
+        local temp_file="${temp_dir}/${i}.pdf"
+
+        mv "${temp_file}" "${output_file}"
     done
 }

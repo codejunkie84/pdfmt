@@ -24,9 +24,10 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
-    _assert_file "${input_file}"
-    _assert_digit "${position}"
-    _assert_file "${insert_file}"
+    _assert_is_file "${input_file}" || return $?
+    _assert_is_digit "${position}" || return $?
+    _assert_is_file "${insert_file}" || return $?
+    _assert_is_not_file "${output_file}" || return $?
 
 
     # Handle

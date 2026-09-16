@@ -2,8 +2,8 @@
 # Asserts that the given program is installed.
 #
 # Usage:
-#   _assert_installed "tar"
-#   _assert_installed "tar" "tar is not installed"
+#   _assert_is_installed "tar"
+#   _assert_is_installed "tar" "tar is not installed"
 #
 # Arguments:
 #   $1: Name of the program
@@ -13,7 +13,7 @@
 # Returns:
 #   0 on success, 1 on failure
 #######################################################################################################################
-function _assert_installed()
+function _assert_is_installed()
 {
     local -r program="${1:-}"
     local -r message="${2:-Could not find program "$program" in "\$PATH", or it is not executable}"
@@ -27,8 +27,8 @@ function _assert_installed()
 # Asserts whether a given file (not a directory) exists.
 #
 # Usage:
-#   _assert_file "/path/to/file"
-#   _assert_file "/path/to/file" "Interchange file does not exist"
+#   _assert_is_file "/path/to/file"
+#   _assert_is_file "/path/to/file" "Interchange file does not exist"
 #
 # Globals:
 #   None
@@ -40,7 +40,7 @@ function _assert_installed()
 # Returns:
 #   0 on success, 1 on failure
 #######################################################################################################################
-function _assert_file()
+function _assert_is_file()
 {
     local -r path="${1:-}"
     local -r message="${2:-File does not exist: "$path"}"
@@ -52,11 +52,39 @@ function _assert_file()
 }
 
 #######################################################################################################################
+# Asserts whether a given file does not exists.
+#
+# Usage:
+#   _assert_is_not_file "/path/to/file"
+#   _assert_is_not_file "/path/to/file" "Output file already exist"
+#
+# Globals:
+#   None
+# Arguments:
+#   $1: Path to file
+#   $2: (optional) Custom assertion failure message
+# Outputs:
+#   Outputs a message to STDERR if the assertion fails
+# Returns:
+#   0 on success, 1 on failure
+#######################################################################################################################
+function _assert_is_not_file()
+{
+    local -r path="${1:-}"
+    local -r message="${2:-File already exists: ${path}}"
+
+    if [[ -f "$path" ]]; then
+        _log_error "${message}"
+        return 1
+    fi
+}
+
+#######################################################################################################################
 # Asserts whether a given string is not empty.
 #
 # Usage:
-#   _assert_not_empty "$value_to_check"
-#   _assert_not_empty "$value_to_check" "No value set"
+#   _assert_is_not_empty "$value_to_check"
+#   _assert_is_not_empty "$value_to_check" "No value set"
 #
 # Globals:
 #   None
@@ -68,7 +96,7 @@ function _assert_file()
 # Returns:
 #   0 on success, 1 on failure
 #######################################################################################################################
-function _assert_not_empty()
+function _assert_is_not_empty()
 {
     local -r value="${1:-}"
     local -r message="${2:-Value not set}"
@@ -83,8 +111,8 @@ function _assert_not_empty()
 # Asserts that all characters in the given value are numeric.
 #
 # Usage:
-#   _assert_digit "$value_to_check"
-#   _assert_digit "$value_to_check" "Offset contains non-digit characters"
+#   _assert_is_digit "$value_to_check"
+#   _assert_is_digit "$value_to_check" "Offset contains non-digit characters"
 #
 # Globals:
 #   None
@@ -96,7 +124,7 @@ function _assert_not_empty()
 # Returns:
 #   0 on success, 1 on failure
 #######################################################################################################################
-function _assert_digit()
+function _assert_is_digit()
 {
     local -r value="${1:-}"
     local -r message="${2:-The value does not consist entirely of digits: "${value}"}"

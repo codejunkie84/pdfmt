@@ -1,8 +1,8 @@
 function command_scan()
 {
     # Check dependencies for 'scan' command
-    _assert_installed convert    # Part of ImageMagick
-    _assert_installed scanimage
+    _assert_is_installed convert || return $?   # Part of ImageMagick
+    _assert_is_installed scanimage || return $?
 
     local -r command="${1:-}"
 

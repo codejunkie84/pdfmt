@@ -10,6 +10,8 @@ function _command_scan_execute()
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
+    _assert_is_not_file "${output_file}" || return $?
+
     if [[ -z "${SCAN_DEVICE}" ]]; then
         _log_error "No scanner device configured. Please check ~/.config/pdfmt/scan.conf"
         return 1
