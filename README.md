@@ -149,7 +149,7 @@ pdfmt scan adf back.pdf
 pdfmt merge duplex front.pdf back.pdf documents.pdf
 
 # 4. Split the result into chunks of 2 pages
-pdfmt split length 2 documents.pdf document_
+pdfmt split length documents.pdf 2 document_
 ```
 
 **Result:** You get `document_1.pdf` (containing front and back of sheet 1), `document_2.pdf`, etc.
