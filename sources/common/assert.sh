@@ -134,3 +134,33 @@ function _assert_is_digit()
         return 1
     fi
 }
+
+#######################################################################################################################
+# Asserts that the given value matches the given regex.
+#
+# Usage:
+#   _assert_matches_regex "$pattern" "$value_to_check"
+#   _assert_matches_regex "$pattern" "$value_to_check" "Path contains invalid characters"
+#
+# Globals:
+#   None
+# Arguments:
+#   $1: The regex
+#   $2: Value to check
+#   $3: (optional) Custom assertion failure message
+# Outputs:
+#   Outputs a message to STDERR if the assertion fails
+# Returns:
+#   0 on success, 1 on failure
+#######################################################################################################################
+function _assert_matches_regex()
+{
+    local -r regex="${1:-}"
+    local -r value="${2:-}"
+    local -r message="${3:-Value does not match required pattern: ${value}}"
+
+    if [[ ! "${value}" =~ ${regex} ]]; then
+        _log_error "${message}"
+        return 1
+    fi
+}
