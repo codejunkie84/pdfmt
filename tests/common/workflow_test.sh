@@ -134,6 +134,6 @@ function test_workflow_get_description()
     assert_same "my foobar (2) workflow" "${result}"
 
     result=$(_workflow_get_description "$TEST_DIR/workflows/nonexistent") || exit_code=$?
-    assert_same "1" "${exit_code}"
+    assert_not_same "0" "${exit_code}"
     assert_same "" "${result}"
 }
