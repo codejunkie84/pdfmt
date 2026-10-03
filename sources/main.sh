@@ -8,6 +8,7 @@ function main()
     _assert_is_installed awk
     _assert_is_installed basename
     _assert_is_installed cat
+    _assert_is_installed cut
     _assert_is_installed find
     _assert_is_installed grep
     _assert_is_installed head
@@ -15,6 +16,7 @@ function main()
     _assert_is_installed pdftk
     _assert_is_installed sed
     _assert_is_installed seq
+    _assert_is_installed sort
     _assert_is_installed tr
     _assert_is_installed xargs
 
@@ -29,6 +31,7 @@ function main()
         sort) command_sort "$@" ;;
         split) command_split "$@" ;;
         stamp) command_stamp "$@" ;;
+        workflow) command_workflow "$@" ;;
 
         version|--version|-v) command_version "$@" ;;
         help|--help|-h|'') command_help "$@" ;;

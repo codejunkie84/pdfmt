@@ -73,3 +73,15 @@ function test_common_assert_is_digit()
     _assert_is_digit "123abc" || exit_code=$?
     assert_same "1" "${exit_code}"
 }
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function test_common_assert_matches_regex()
+{
+    local exit_code=0
+
+    _assert_matches_regex '^[^/]+$' "foobar" || exit_code=$?
+    assert_same "0" "${exit_code}"
+
+    _assert_matches_regex '^[^/]+$' "foo/bar" || exit_code=$?
+    assert_same "1" "${exit_code}"
+}

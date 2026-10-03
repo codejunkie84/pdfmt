@@ -80,3 +80,42 @@ EOF
     value="$(_config_get_value "$config_file" "stamp.text.font.size")";     export STAMP_TEXT_FONT_SIZE="$value"
     value="$(_config_get_value "$config_file" "stamp.text.font.color")";    export STAMP_TEXT_FONT_COLOR="$value"
 }
+
+function _config_load_workflow()
+{
+    local -r config_dir="${HOME}/.config/pdfmt"
+    local -r config_file="${config_dir}/workflow.conf"
+    local -r workflow_dir="${HOME}/.local/share/pdfmt/workflows"
+
+    if [[ ! -f "${config_file}" ]]; then
+        mkdir -p "$config_dir"
+        cat <<EOF > "$config_file"
+# Config for command: workflow
+# =====================================================================================================================
+# List of directories separated by : where your workflow scripts are located.
+workflow.paths=${workflow_dir}
+
+EOF
+
+        mkdir -p "${workflow_dir}"
+        cat <<EOF > "${workflow_dir}/echo"
+#!/usr/bin/env bash
+# =====================================================================================================================
+# Write arguments to the standard output
+#
+# Usage:
+#   echo [string ...]
+#
+# Workflow steps:
+#   - Writes any specified argument to the standard output
+# =====================================================================================================================
+
+echo "\$@"
+
+EOF
+        chmod +x "${workflow_dir}/echo"
+    fi
+
+    local value=
+    value="$(_config_get_value "$config_file" "workflow.paths")";       export WORKFLOW_PATHS="$value"
+}
