@@ -261,11 +261,14 @@ Place an executable script in one of your configured workflow directories:
 └── my-workflow
 ```
 
-The second line is used as the workflow description:
+The third line is used as the workflow description:
 
 ```bash
 #!/usr/bin/env bash
+# =============================...
 # My custom PDF workflow.
+#
+# ...
 ```
 
 Then run it like any other `pdfmt` command:
