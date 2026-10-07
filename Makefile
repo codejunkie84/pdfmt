@@ -6,12 +6,25 @@ VERSION ?= $(shell cat $(VERSION_FILE) 2>/dev/null || echo "0.0.0-unknown")
 
 SOURCE_DIR = sources
 TEST_DIR = tests
+COMPLETIONS_DIR = completions
 DIST_DIR = dist
 APP_NAME = pdfmt
 TARGET = $(DIST_DIR)/$(APP_NAME)
 TARGET_TARGZ = $(DIST_DIR)/$(APP_NAME)-$(VERSION).tar.gz
 PREFIX ?= /usr/local
 BIN_DIR = $(PREFIX)/bin
+
+BASH_COMPLETION_DIRS := \
+	/usr/share/bash-completion/completions \
+	/etc/bash_completion.d
+ifeq ($(shell uname -s),Darwin)
+    BASH_COMPLETION_DIRS := \
+        /usr/local/share/bash-completion/completions \
+        /opt/homebrew/share/bash-completion/completions \
+        /usr/local/etc/bash_completion.d \
+        /opt/homebrew/etc/bash_completion.d
+endif
+
 
 # SPECIAL BUILT-IN TARGETS
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,6 +82,8 @@ lint:
 	find "$(SOURCE_DIR)" -type f -name "*.sh" -exec shellcheck -s bash {} \;
 	find "$(TEST_DIR)"   -type f -name "*.sh" -exec shellcheck -s bash {} \;
 
+	find "$(COMPLETIONS_DIR)"   -type f -name "*.bash" -exec shellcheck -s bash {} \;
+
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 test: lint build
 	if [ ! -f lib/bashunit ]; then \
@@ -85,9 +100,35 @@ clean:
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 install: build
-	sudo mkdir -p "$(BIN_DIR)"
-	sudo cp "$(TARGET)" "$(BIN_DIR)/$(APP_NAME)"
+	# pdfmt
+	install -d "$(BIN_DIR)"
+	install -m 755 "$(TARGET)" "$(BIN_DIR)/$(APP_NAME)"
+	echo "$(BIN_DIR)/$(APP_NAME)"
+
+	# shell completion
+	@target_dir=""; \
+	for dir in $(BASH_COMPLETION_DIRS); do \
+		if [ -d "$$dir" ]; then \
+			target_dir="$$dir"; \
+			break; \
+		fi; \
+	done; \
+	if [ -n "$$target_dir" ]; then \
+		echo "INFO: Bash completion installed in $$target_dir/$(APP_NAME)"; \
+		install -d "$$target_dir"; \
+		install -m 644 completions/pdfmt.bash "$$target_dir/$(APP_NAME)"; \
+	else \
+		echo "WARNING: No matching bash completion directory found."; \
+	fi
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 uninstall:
-	sudo rm -f "$(BIN_DIR)/$(APP_NAME)"
+	# pdfmt
+	rm -f "$(BIN_DIR)/$(APP_NAME)"
+
+	# shell completion
+	@for dir in $(BASH_COMPLETION_DIRS); do \
+		if [ -f "$$dir/$(APP_NAME)" ]; then \
+			rm -f "$$dir/$(APP_NAME)"; \
+		fi; \
+	done
