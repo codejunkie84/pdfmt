@@ -18,6 +18,10 @@ function set_up()
     # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
     source "$ROOT_DIR/sources/command/merge/help.sh"
     # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    source "$ROOT_DIR/sources/command/ocr/_index.sh"
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    source "$ROOT_DIR/sources/command/ocr/help.sh"
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
     source "$ROOT_DIR/sources/command/remove/_index.sh"
     # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
     source "$ROOT_DIR/sources/command/remove/help.sh"
@@ -66,33 +70,37 @@ function test_command_main()
     assert_same "0" "${exit_code}"
     assert_contains "$VERSION" "${output}"
 
-     output=$(main extract) || exit_code=$?
-     assert_same "0" "${exit_code}"
-     assert_contains "pdfmt extract <command> [arguments]" "${output}"
+    output=$(main extract) || exit_code=$?
+    assert_same "0" "${exit_code}"
+    assert_contains "pdfmt extract <command> [arguments]" "${output}"
 
-     output=$(main merge) || exit_code=$?
-     assert_same "0" "${exit_code}"
-     assert_contains "pdfmt merge <command> [arguments]" "${output}"
+    output=$(main merge) || exit_code=$?
+    assert_same "0" "${exit_code}"
+    assert_contains "pdfmt merge <command> [arguments]" "${output}"
 
-     output=$(main remove) || exit_code=$?
-     assert_same "0" "${exit_code}"
-     assert_contains "pdfmt remove <command> [arguments]" "${output}"
+    output=$(main ocr) || exit_code=$?
+    assert_same "0" "${exit_code}"
+    assert_contains "pdfmt ocr <command> [arguments]" "${output}"
 
-     output=$(main scan) || exit_code=$?
-     assert_same "0" "${exit_code}"
-     assert_contains "pdfmt scan <command> [arguments]" "${output}"
+    output=$(main remove) || exit_code=$?
+    assert_same "0" "${exit_code}"
+    assert_contains "pdfmt remove <command> [arguments]" "${output}"
 
-     output=$(main sort) || exit_code=$?
-     assert_same "0" "${exit_code}"
-     assert_contains "pdfmt sort <command> [arguments]" "${output}"
+    output=$(main scan) || exit_code=$?
+    assert_same "0" "${exit_code}"
+    assert_contains "pdfmt scan <command> [arguments]" "${output}"
 
-     output=$(main split) || exit_code=$?
-     assert_same "0" "${exit_code}"
-     assert_contains "pdfmt split <command> [arguments]" "${output}"
+    output=$(main sort) || exit_code=$?
+    assert_same "0" "${exit_code}"
+    assert_contains "pdfmt sort <command> [arguments]" "${output}"
 
-     output=$(main stamp) || exit_code=$?
-     assert_same "0" "${exit_code}"
-     assert_contains "pdfmt stamp <command> [arguments]" "${output}"
+    output=$(main split) || exit_code=$?
+    assert_same "0" "${exit_code}"
+    assert_contains "pdfmt split <command> [arguments]" "${output}"
+
+    output=$(main stamp) || exit_code=$?
+    assert_same "0" "${exit_code}"
+    assert_contains "pdfmt stamp <command> [arguments]" "${output}"
 
     output=$(main foobar 2>&1) || exit_code=$?
     assert_same "1" "${exit_code}"

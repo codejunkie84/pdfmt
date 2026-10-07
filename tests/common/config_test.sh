@@ -68,3 +68,17 @@ EOF
     assert_same "42" "${STAMP_TEXT_FONT_SIZE}"
     assert_same "#00FF00" "${STAMP_TEXT_FONT_COLOR}"
 }
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function test_config_load_ocr()
+{
+    cat > "${HOME}/.config/pdfmt/ocr.conf" <<EOF
+ocr.language=foo
+ocr.plugin=bar
+EOF
+
+    _config_load_ocr
+
+    assert_same "foo" "${OCR_LANGUAGE}"
+    assert_same "bar" "${OCR_PLUGIN}"
+}

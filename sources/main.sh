@@ -26,6 +26,7 @@ function main()
     case "${command}" in
         extract) command_extract "$@" ;;
         merge) command_merge "$@" ;;
+        ocr) command_ocr "$@" ;;
         remove) command_remove "$@" ;;
         scan) command_scan "$@" ;;
         sort) command_sort "$@" ;;

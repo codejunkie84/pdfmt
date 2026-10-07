@@ -302,9 +302,10 @@ chmod +x ~/.local/share/pdfmt/workflows/$WORKFLOW_NAME
 `pdfmt` currently provides commands for:
 
 | Task               | Examples                                                         |
-| ------------------ | ---------------------------------------------------------------- |
+|--------------------|------------------------------------------------------------------|
 | **Extract pages**  | Extract even pages, odd pages, or arbitrary ranges               |
 | **Merge PDFs**     | Merge documents, interleave duplex scans, insert documents       |
+| **OCR PDFs**       | Execute OCR operations on PDF files                              |
 | **Remove pages**   | Remove even pages, odd pages, or arbitrary ranges                |
 | **Scan documents** | Scan using an ADF or flatbed scanner                             |
 | **Sort pages**     | Reverse, shuffle, swap, move and handle duplex page orders       |
@@ -343,6 +344,10 @@ Below is a quick overview of all available commands. To get detailed usage instr
 |              | `merge duplex`  | Interleave two PDFs (front/back scans) into one duplex document    |
 |              | `merge help`    | Help of category *Merge*                                           |
 |              | `merge insert`  | Insert a PDF into another document at a specific page              |
+| **OCR**      | `ocr add`       | Add an OCR text layer to a PDF document                            |
+|              | `ocr exists`    | Check if a PDF document contains an OCR/text layer                 |
+|              | `ocr help`      | Help of category *Ocr*                                             |
+|              | `ocr show`      | Display the extracted OCR text layer of a PDF document             |
 | **Remove**   | `remove even`   | Remove all even-numbered pages                                     |
 |              | `remove help`   | Help of category *Remove*                                          |
 |              | `remove odd`    | Remove all odd-numbered pages                                      |
@@ -385,8 +390,9 @@ The required runtime tools are:
 | [pdftk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) | `pdftk`       | `pdftk-java`    | PDF manipulation     |
 | [ImageMagick](https://imagemagick.org/)                       | `imagemagick` | `imagemagick`   | Image/PDF operations |
 | [SANE](https://sane-project.org/)                             | `sane-utils`  | `sane-backends` | Scanning             |
+| [OCRmyPDF](https://github.com/ocrmypdf/OCRmyPDF)              | `ocrmypdf`    | `ocrmypdf`      | OCR operations       |
 
-Not every command requires every dependency. For example, SANE is only needed for the `scan` command.
+Not every command requires every dependency. For example, SANE is only needed for the `scan` command and OCRmyPDF is only needed for `ocr add`.
 
 #### Linux
 
@@ -501,6 +507,36 @@ Available settings include:
 | Setting          | Default                          | Description                                                                 |
 |------------------|----------------------------------|-----------------------------------------------------------------------------|
 | `workflow.paths` | `~/.local/share/pdfmt/workflows` | List of directories separated by : where your workflow scripts are located  |
+
+### OCR configuration
+
+The `ocr` command uses:
+
+```text
+~/.config/pdfmt/ocr.conf
+```
+
+Available settings include:
+
+| Setting        | Default | Description                                                             |
+|----------------|---------|-------------------------------------------------------------------------|
+| `ocr.language` | `eng`   | Language codes used for OCR text recognition.                           |
+| `ocr.plugin`   | ` `     | The OCRmyPDF engine plugin to be used. If empty Tesseract will be used. |
+
+**Note:** If a configured plugin like `ocrmypdf_rapidocr` is not installed on the system, `pdfmt ocr add` will exit with a clear error message rather than creating faulty PDFs.
+
+#### Recommendation for OCR: RapidOCR or EasyOCR
+
+`pdfmt` uses OCRmyPDF for text recognition, which also supports plugins. For optimal performance and accuracy (especially on CPUs and Intel Macs), the RapidOCR plugin is recommended. If you need maximum recognition quality on complex layouts and have a powerful GPU and RAM available, take a look at EasyOCR.
+
+After installing your preferred plugin, you can enable it by updating the configuration file:
+
+```bash
+# Enable RapidOCR:
+ocr.plugin=ocrmypdf_rapidocr
+```
+
+**Note:** If you get errors like `ValueError: Unsupported rec.lang_type='latin' for PP-OCRv6 small model.` ensure the correct model for RapidOCR is installed.
 
 ---
 

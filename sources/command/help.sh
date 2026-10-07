@@ -9,6 +9,7 @@ Usage:
 Core Commands:
   extract       Save specific pages into a new PDF
   merge         Combine PDFs into a single document
+  ocr           OCR operations for PDF files
   remove        Delete specific pages from a PDF
   scan          Create PDFs directly from a scanner
   split         Split a PDF into multiple files

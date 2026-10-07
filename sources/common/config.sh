@@ -119,3 +119,31 @@ EOF
     local value=
     value="$(_config_get_value "$config_file" "workflow.paths")";       export WORKFLOW_PATHS="$value"
 }
+
+function _config_load_ocr()
+{
+    local -r config_dir="${HOME}/.config/pdfmt"
+    local -r config_file="${config_dir}/ocr.conf"
+
+    if [[ ! -f "${config_file}" ]]; then
+        mkdir -p "$config_dir"
+        cat <<EOF > "$config_file"
+# Config for command: ocr
+# =====================================================================================================================
+# Language codes used for OCR text recognition.
+ocr.language=eng
+
+# Used OCRmyPDF plugin.
+# Default: -empty- (Tesseract will be used)
+# Possible options if installed:
+# - ocrmypdf_rapidocr
+# - ocrmypdf_easyocr
+ocr.plugin=
+
+EOF
+    fi
+
+    local value=
+    value="$(_config_get_value "$config_file" "ocr.language")"; export OCR_LANGUAGE="$value"
+    value="$(_config_get_value "$config_file" "ocr.plugin")";   export OCR_PLUGIN="$value"
+}
