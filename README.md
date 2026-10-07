@@ -225,7 +225,7 @@ With a workflow, all of that can become:
 pdfmt workflow run scan-duplex adf output.pdf
 ```
 
-A workflow is simply an executable shell script:
+A workflow is simply an executable shell script like this one, a simplified version of `scan-duplex` from the official [pdfmt-workflows](https://github.com/eifelcode/pdfmt-workflows) repository (see also pre-defined workflows below):
 
 ```bash
 #!/usr/bin/env bash
