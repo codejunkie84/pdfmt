@@ -7,7 +7,7 @@
 
 **pdfmt** is a command-line toolkit for the PDF tasks you keep doing again and again.
 
-Merge PDFs. Split them. Extract pages. Reorder documents. Scan from your scanner. Add stamps. And when a task becomes repetitive, turn it into a reusable workflow.
+Merge PDFs. Split them. Extract pages. Reorder documents. Scan from your scanner and OCR them. Add stamps. And when a task becomes repetitive, turn it into a reusable workflow.
 
 No GUI required. No cloud upload required. Just your PDFs, your terminal, and the tools you already use.
 
@@ -27,11 +27,12 @@ Working with PDFs often means reaching for a different tool for every little tas
 * "I scanned the front and back separately. Now I need to put them back together."
 * "I need to merge these five documents."
 * "I need to add a processed stamp."
+* "I need to OCR my documents."
 * "I have to do this every week."
 
 `pdfmt` is designed for exactly these situations.
 
-Instead of remembering a collection of different commands and tools, you can use one interface:
+Instead of remembering a collection of different commands, options, pipes and tools, you can use one interface:
 
 ```bash
 pdfmt <command> <subcommand> [arguments]
@@ -190,6 +191,20 @@ pdfmt split range document.pdf 1-7 1,8-10 1,11-14 split_doc_
 ```
 
 Here, page 1 becomes part of every resulting PDF.
+
+---
+
+### Add an OCR text layer to a PDF document
+
+If you have scanned documents, you can simply add an OCR text layer and then search for text within those PDFs:
+
+```bash
+# add the OCR text layer
+pdfmt ocr add file-without-ocr.pdf file-with-ocr.pdf
+
+# show the OCR text layer (to use with grep)
+pdfmt ocr show file-with-ocr.pdf
+```
 
 ---
 
