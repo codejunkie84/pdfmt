@@ -56,7 +56,7 @@ function test_command_ocr_add_ocr_already_exists()
     local exit_code=0
     local output
 
-    output="$(command_ocr_add "${ROOT_DIR}/tests/_data/pages.pdf" outpud.pdf)" || exit_code=$?
+    output="$(command_ocr_add "${ROOT_DIR}/tests/_data/pages.pdf" output.pdf)" || exit_code=$?
     assert_same "0" "${exit_code}"
     assert_same "" "${output}"
     assert_not_same "output.pdf" "$(printf '%s\n' *)"
