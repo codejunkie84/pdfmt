@@ -41,6 +41,10 @@ function set_up()
     source "$ROOT_DIR/sources/command/stamp/_index.sh"
     # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
     source "$ROOT_DIR/sources/command/stamp/help.sh"
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    source "$ROOT_DIR/sources/command/workflow/_index.sh"
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    source "$ROOT_DIR/sources/command/workflow/help.sh"
 }
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,6 +105,10 @@ function test_command_main()
     output=$(main stamp) || exit_code=$?
     assert_same "0" "${exit_code}"
     assert_contains "pdfmt stamp <command> [arguments]" "${output}"
+
+    output=$(main workflow) || exit_code=$?
+    assert_same "0" "${exit_code}"
+    assert_contains "pdfmt workflow <command> [arguments]" "${output}"
 
     output=$(main foobar 2>&1) || exit_code=$?
     assert_same "1" "${exit_code}"
