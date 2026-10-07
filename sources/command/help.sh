@@ -14,6 +14,7 @@ Core Commands:
   split         Split a PDF into multiple files
   sort          Reorder pages within a PDF
   stamp         Add custom overlays (like dates, status marks) to your PDFs
+  workflow      Workflow scripts make your daily PDF workflows easier
 
 General Commands:
   help          Display this help message
