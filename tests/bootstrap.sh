@@ -6,6 +6,9 @@ function bootstrap()
     local -r root_dir="$(cd "$(bashunit::current_dir)/.." && pwd -P)"
     export ROOT_DIR="$root_dir"
 
+    # generate the test data
+    "$ROOT_DIR/tools/generate-test-data.sh" "$ROOT_DIR/tests/_data/DejaVuSans-Bold.ttf" "$ROOT_DIR/tests/_data"
+
     # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
     source "$ROOT_DIR/sources/common/assert.sh"
     # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.

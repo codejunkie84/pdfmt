@@ -1,6 +1,10 @@
 # Builds
 /dist/
 
+# Test data
+/tests/_data/*.pdf
+/tests/_data/*.png
+
 # External dependencies
 /lib/bashunit
 /.bashunit
