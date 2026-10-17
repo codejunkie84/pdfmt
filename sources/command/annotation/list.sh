@@ -22,6 +22,8 @@ TEXT
 
     # Validate
     # -----------------------------------------------------------------------------------------------------------------
+    _assert_is_installed qpdf || return $?
+    _assert_is_installed jq || return $?
     _assert_is_file "${input_file}" || return $?
 
 

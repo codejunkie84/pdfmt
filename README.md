@@ -404,13 +404,15 @@ Below is a quick overview of all available commands. To get detailed usage instr
 
 The required runtime tools are:
 
-| Program                                                       | Linux         | macOS           | Used for             |
-|---------------------------------------------------------------|---------------|-----------------|----------------------|
-| [Bash](https://www.gnu.org/software/bash/) >= 4.3             | `bash`        | `bash`          | Running `pdfmt`      |
-| [pdftk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) | `pdftk`       | `pdftk-java`    | PDF manipulation     |
-| [ImageMagick](https://imagemagick.org/)                       | `imagemagick` | `imagemagick`   | Image/PDF operations |
-| [SANE](https://sane-project.org/)                             | `sane-utils`  | `sane-backends` | Scanning             |
-| [OCRmyPDF](https://github.com/ocrmypdf/OCRmyPDF)              | `ocrmypdf`    | `ocrmypdf`      | OCR operations       |
+| Program                                                       | Linux         | macOS           | Used for                                        |
+|---------------------------------------------------------------|---------------|-----------------|-------------------------------------------------|
+| [Bash](https://www.gnu.org/software/bash/) >= 4.3             | `bash`        | `bash`          | Running `pdfmt`                                 |
+| [pdftk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) | `pdftk`       | `pdftk-java`    | PDF manipulation                                |
+| [ImageMagick](https://imagemagick.org/)                       | `imagemagick` | `imagemagick`   | Image/PDF operations                            |
+| [SANE](https://sane-project.org/)                             | `sane-utils`  | `sane-backends` | Scanning                                        |
+| [OCRmyPDF](https://github.com/ocrmypdf/OCRmyPDF)              | `ocrmypdf`    | `ocrmypdf`      | OCR operations                                  |
+| [QPDF](https://qpdf.sourceforge.io/)                          | `qpdf`        | `qpdf`          | Content-preserving transformations on PDF files |
+| [jq](https://jqlang.org/)                                     | `js`          | `jq`            | Command-line JSON processor                     |
 
 Not every command requires every dependency. For example, SANE is only needed for the `scan` command and OCRmyPDF is only needed for `ocr add`.
 
@@ -419,7 +421,7 @@ Not every command requires every dependency. For example, SANE is only needed fo
 On Debian/Ubuntu:
 
 ```bash
-sudo apt install bash pdftk imagemagick sane-utils
+sudo apt install bash pdftk imagemagick sane-utils jq qpdf
 ```
 
 Other Linux distributions may use different package names.
@@ -429,7 +431,7 @@ Other Linux distributions may use different package names.
 Using Homebrew:
 
 ```bash
-brew install bash pdftk-java imagemagick sane-backends
+brew install bash pdftk-java imagemagick sane-backends jq qpdf
 ```
 
 macOS ships with Bash 3.2, which is too old for `pdfmt`. Make sure a newer Bash version is available.

@@ -29,15 +29,23 @@ TEXT
         return 0
     fi
 
-    # Load arguments
+    # Load
+    # -----------------------------------------------------------------------------------------------------------------
     local -r input_file="${1}"
     local -r raw_types="${2}"
     local -r output_file="${3}"
 
+
     # Validate
+    # -----------------------------------------------------------------------------------------------------------------
+    _assert_is_installed qpdf || return $?
+    _assert_is_installed jq || return $?
     _assert_is_file "${input_file}" || return $?
     _assert_is_not_file "${output_file}" || return $?
 
+
+    # Handle
+    # -----------------------------------------------------------------------------------------------------------------
     # Parse annotation types
     local -a target_subtypes=()
     local -a types_array=()

@@ -30,6 +30,8 @@ jobs:
               shellcheck \
               ocrmypdf \
               pdftk \
+              qpdf \
+              jq \
               poppler-utils \
               sane-utils \
               imagemagick
@@ -41,6 +43,8 @@ jobs:
               ocrmypdf \
               pdftk-java \
               poppler \
+              qpdf \
+              jq \
               sane-backends \
               imagemagick
           fi
