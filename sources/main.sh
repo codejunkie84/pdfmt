@@ -24,6 +24,7 @@ function main()
     [[ -n "${command}" ]] && shift
 
     case "${command}" in
+        annotation) command_annotation "$@" ;;
         extract) command_extract "$@" ;;
         merge) command_merge "$@" ;;
         ocr) command_ocr "$@" ;;

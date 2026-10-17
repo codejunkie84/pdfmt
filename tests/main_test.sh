@@ -10,6 +10,10 @@ function set_up()
     # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
     source "$ROOT_DIR/sources/command/version.sh"
     # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    source "$ROOT_DIR/sources/command/annotation/_index.sh"
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
+    source "$ROOT_DIR/sources/command/annotation/help.sh"
+    # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
     source "$ROOT_DIR/sources/command/extract/_index.sh"
     # shellcheck disable=SC1091     # ROOT_DIR is provided by the bootstrap.
     source "$ROOT_DIR/sources/command/extract/help.sh"
@@ -73,6 +77,10 @@ function test_command_main()
     output=$(main version) || exit_code=$?
     assert_same "0" "${exit_code}"
     assert_contains "$VERSION" "${output}"
+
+    output=$(main annotation) || exit_code=$?
+    assert_same "0" "${exit_code}"
+    assert_contains "pdfmt annotation <command> [arguments]" "${output}"
 
     output=$(main extract) || exit_code=$?
     assert_same "0" "${exit_code}"

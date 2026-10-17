@@ -318,6 +318,7 @@ chmod +x ~/.local/share/pdfmt/workflows/$WORKFLOW_NAME
 
 | Task               | Examples                                                         |
 |--------------------|------------------------------------------------------------------|
+| **Annotate**       | Extract and remove annotations                                   |
 | **Extract pages**  | Extract even pages, odd pages, or arbitrary ranges               |
 | **Merge PDFs**     | Merge documents, interleave duplex scans, insert documents       |
 | **OCR PDFs**       | Execute OCR operations on PDF files                              |
@@ -349,45 +350,49 @@ pdfmt workflow help
 
 Below is a quick overview of all available commands. To get detailed usage instructions for a specific command, simply run `pdfmt <command> help`.
 
-| Category     | Command         | Description                                                        |
-|:-------------|:----------------|:-------------------------------------------------------------------|
-| **Extract**  | `extract even`  | Extract all even-numbered pages                                    |
-|              | `extract help`  | Help of category *Extract*                                         |
-|              | `extract odd`   | Extract all odd-numbered pages                                     |
-|              | `extract range` | Extract a specific range of pages (e.g., 1-5) into a new PDF       |
-| **Merge**    | `merge all`     | Combine PDFs into a single document                                |
-|              | `merge duplex`  | Interleave two PDFs (front/back scans) into one duplex document    |
-|              | `merge help`    | Help of category *Merge*                                           |
-|              | `merge insert`  | Insert a PDF into another document at a specific page              |
-| **OCR**      | `ocr add`       | Add an OCR text layer to a PDF document                            |
-|              | `ocr exists`    | Check if a PDF document contains an OCR/text layer                 |
-|              | `ocr help`      | Help of category *Ocr*                                             |
-|              | `ocr show`      | Display the extracted OCR text layer of a PDF document             |
-| **Remove**   | `remove even`   | Remove all even-numbered pages                                     |
-|              | `remove help`   | Help of category *Remove*                                          |
-|              | `remove odd`    | Remove all odd-numbered pages                                      |
-|              | `remove range`  | Remove a specific range of pages (e.g., 1-5)                       |
-| **Scan**     | `scan adf`      | Scan documents from ADF (automatic document feeder) into a new PDF |
-|              | `scan flatbed`  | Scan documents from flatbed scanner into a new PDF                 |
-|              | `scan help`     | Help of category *Scan*                                            |
-| **Sort**     | `sort duplex`   | Reorder a single PDF containing consecutive front and back scans   |
-|              | `sort help`     | Help of category *Sort*                                            |
-|              | `sort move`     | Move specific pages to a new position within the PDF               |
-|              | `sort random`   | Shuffle the pages of a PDF into a random order                     |
-|              | `sort reverse`  | Reverse the page order of a PDF                                    |
-|              | `sort swap`     | Swap two specific pages within a PDF                               |
-| **Split**    | `split all`     | Split a PDF into separate files, one for each page                 |
-|              | `split help`    | Help of category *Split*                                           |
-|              | `split length`  | Split a PDF into chunks of a fixed number of pages                 |
-|              | `split range`   | Split a PDF into multiple files based on page ranges               |
-| **Stamp**    | `stamp help`    | Help of category *Stamp*                                           |
-|              | `stamp text`    | Add a custom text stamp to a PDF                                   |
-| **Workflow** | `workflow help` | Help of category *Workflow*                                        |
-|              | `workflow info` | Shows information about a workflow                                 |
-|              | `workflow list` | Lists all available workflow scripts                               |
-|              | `workflow run`  | Runs a workflow script                                             |
-| **Misc**     | `help`          | Help of `pdfmt`                                                    |
-|              | `version`       | Displays the version of `pdfmt`                                    |
+| Category       | Command             | Description                                                        |
+|:---------------|:--------------------|:-------------------------------------------------------------------|
+| **Annotation** | `annotation help`   | Help of category *Annotation*                                      |                
+|                | `annotation list`   | List all annotation types present in a PDF document                |
+|                | `annotation remove` | Remove annotations from a PDF document                             |
+|                | `annotation show`   | Show annotation details into plain text format                     |
+| **Extract**    | `extract even`      | Extract all even-numbered pages                                    |
+|                | `extract help`      | Help of category *Extract*                                         |
+|                | `extract odd`       | Extract all odd-numbered pages                                     |
+|                | `extract range`     | Extract a specific range of pages (e.g., 1-5) into a new PDF       |
+| **Merge**      | `merge all`         | Combine PDFs into a single document                                |
+|                | `merge duplex`      | Interleave two PDFs (front/back scans) into one duplex document    |
+|                | `merge help`        | Help of category *Merge*                                           |
+|                | `merge insert`      | Insert a PDF into another document at a specific page              |
+| **OCR**        | `ocr add`           | Add an OCR text layer to a PDF document                            |
+|                | `ocr exists`        | Check if a PDF document contains an OCR/text layer                 |
+|                | `ocr help`          | Help of category *Ocr*                                             |
+|                | `ocr show`          | Display the extracted OCR text layer of a PDF document             |
+| **Remove**     | `remove even`       | Remove all even-numbered pages                                     |
+|                | `remove help`       | Help of category *Remove*                                          |
+|                | `remove odd`        | Remove all odd-numbered pages                                      |
+|                | `remove range`      | Remove a specific range of pages (e.g., 1-5)                       |
+| **Scan**       | `scan adf`          | Scan documents from ADF (automatic document feeder) into a new PDF |
+|                | `scan flatbed`      | Scan documents from flatbed scanner into a new PDF                 |
+|                | `scan help`         | Help of category *Scan*                                            |
+| **Sort**       | `sort duplex`       | Reorder a single PDF containing consecutive front and back scans   |
+|                | `sort help`         | Help of category *Sort*                                            |
+|                | `sort move`         | Move specific pages to a new position within the PDF               |
+|                | `sort random`       | Shuffle the pages of a PDF into a random order                     |
+|                | `sort reverse`      | Reverse the page order of a PDF                                    |
+|                | `sort swap`         | Swap two specific pages within a PDF                               |
+| **Split**      | `split all`         | Split a PDF into separate files, one for each page                 |
+|                | `split help`        | Help of category *Split*                                           |
+|                | `split length`      | Split a PDF into chunks of a fixed number of pages                 |
+|                | `split range`       | Split a PDF into multiple files based on page ranges               |
+| **Stamp**      | `stamp help`        | Help of category *Stamp*                                           |
+|                | `stamp text`        | Add a custom text stamp to a PDF                                   |
+| **Workflow**   | `workflow help`     | Help of category *Workflow*                                        |
+|                | `workflow info`     | Shows information about a workflow                                 |
+|                | `workflow list`     | Lists all available workflow scripts                               |
+|                | `workflow run`      | Runs a workflow script                                             |
+| **Misc**       | `help`              | Help of `pdfmt`                                                    |
+|                | `version`           | Displays the version of `pdfmt`                                    |
 
 ---
 

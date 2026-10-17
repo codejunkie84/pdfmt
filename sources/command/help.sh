@@ -7,6 +7,7 @@ Usage:
   pdfmt <command> <subcommand> [arguments]
 
 Core Commands:
+  annotation    Perform simple annotation operations on a document
   extract       Save specific pages into a new PDF
   merge         Combine PDFs into a single document
   ocr           OCR operations for PDF files
